@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site/ServicioWebSoap" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\ProyectoVerano_2016\\documents\\visual\ studio\ 2012\\Projects\\ServicioWebSoap\\ServicioWebSoap\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\ProyectoVerano_2016\\documents\\visual\ studio\ 2012\\Projects\\ServicioWebSoap\\ServicioWebSoap\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>

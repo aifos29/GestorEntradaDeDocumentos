@@ -1,0 +1,5 @@
+C:\Users\ProyectoVerano_2016\documents\visual studio 2012\Projects\ServicioWebSoap\ServicioWebSoap\bin\ServicioWebSoap.dll
+C:\Users\ProyectoVerano_2016\documents\visual studio 2012\Projects\ServicioWebSoap\ServicioWebSoap\bin\ServicioWebSoap.pdb
+C:\Users\ProyectoVerano_2016\documents\visual studio 2012\Projects\ServicioWebSoap\ServicioWebSoap\obj\Release\ServicioWebSoap.csprojResolveAssemblyReference.cache
+C:\Users\ProyectoVerano_2016\documents\visual studio 2012\Projects\ServicioWebSoap\ServicioWebSoap\obj\Release\ServicioWebSoap.dll
+C:\Users\ProyectoVerano_2016\documents\visual studio 2012\Projects\ServicioWebSoap\ServicioWebSoap\obj\Release\ServicioWebSoap.pdb

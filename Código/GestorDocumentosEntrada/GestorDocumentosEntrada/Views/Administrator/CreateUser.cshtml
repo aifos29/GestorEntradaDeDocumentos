@@ -1,0 +1,96 @@
+﻿@using System.Data
+
+<div class="addProcedure">
+		<div class=" row col-sm-12">
+			<div class="imageContainer col-sm-4">
+				<img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
+			</div>
+			<div class=" col-sm-8">
+				<h4 class="headerTitle">Registrar Nuevo Usuario</h4>
+			</div>
+		</div>
+		<div class=" row col-sm-12">
+            @using (Html.BeginForm("CreateUser", "Administrator"))
+            {
+                 <div class="col-sm-12 form-horizontal">
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="userName">Nombre:</label>
+			  	        </div>
+   
+			            <div class="  col-sm-8">
+			              <input type="text" class="form-control" id="userName" name ="userName" placeholder="Ingrese el nombre completo" required>
+			            </div>
+			          </div>
+
+
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="userDepartment">Departamento:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+				            <select name="userDepartment" class="form-control" runat="server" id="userDepartment" required>
+				    	        <option value="" disabled selected="">Seleccione un departamento</option>
+                                    @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["department"]">@row["department"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  	        </div>
+			  	        <div class="col-sm-8" id ="DepartemtBoss">
+			  		        <input type="checkbox" id="userIsBoss" name="userIsBoss" value="1"> <label for="userIsBoss">Jefe de Departamento</label>
+			  	        </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="userEmail">Correo Electrónico:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+			              <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="usuario@algo.com" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="userPassword">Contraseña:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+			              <input type="password" class="form-control" name="userPassword" placeholder="" required>
+			            </div>
+			          </div>
+			          <div class="buttonDiv form-group"> 
+			  	        <div class="  col-sm-6">
+			    	        <button type="button" class="sendButton" onClick="location.href='@Url.Action("UserList", "Administrator")'">Regresar
+					        </button>
+			            </div>
+			            <div class=" col-sm-6">
+			    	        <button type="submit" class="sendButton" id="saveRegister">Agregar</button>
+			            </div>
+			          </div>
+			    </div>
+            }
+             
+             <div><label>@ViewBag.messege</label></div>
+
+			 </div>
+
+		</div>
+	
+@section Scripts {
+<script>
+    var div = document.getElementById('DepartemtBoss');
+    div.style.display = 'none';
+    $('#userDepartment').change(function () {
+        var Val = $('#userDepartment').val();
+        if (Val === "Plataforma" || Val === "PLATAFORMA") {
+            div.style.display = 'block';
+        } else { div.style.display = 'none'; }
+        error(function (xhr, status) {
+            alert(status);
+        })
+    });
+</script>
+    }

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>JSM.MVC3</id>
+    <version>1.0.1.0</version>
+    <title>JavaScriptModel.MVC3</title>
+    <authors>hotel.de AG</authors>
+    <owners>hotel.de AG</owners>
+    <licenseUrl>http://jsm.codeplex.com/license</licenseUrl>
+    <projectUrl>http://jsm.codeplex.com/</projectUrl>
+    <iconUrl>http://www.codeplex.com/Download?ProjectName=jsm&amp;DownloadId=597323</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>javascriptmodel.MVC3 is a .NET library to transfer data to JavaScript or execute js-functions from .NET server-side code (C#, VB.NET) as embedded json on the website. This version is specific for ASP.Net MVC3.</description>
+    <summary />
+    <tags>javascript model json mvc3</tags>
+    <dependencies>
+      <dependency id="json2" version="1.0.2" />
+      <dependency id="Newtonsoft.Json" version="4.5.11" />
+      <dependency id="JSM" version="1.0.1" />
+    </dependencies>
+  </metadata>
+</package>

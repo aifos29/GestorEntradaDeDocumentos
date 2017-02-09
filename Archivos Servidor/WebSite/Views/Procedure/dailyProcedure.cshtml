@@ -1,0 +1,103 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "Tramites";
+}
+
+<div class="searchProcedure">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-10">
+            <h3 class="headerSearchTitle">Recibir Documentos Diarios</h3>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12">
+        <h5 class="labelForTitleStatistic">Seleccione los documentos que han sido recibidos</h5>
+        <div class="col-sm-12">
+             @if (ViewBag.dailyProcedure.Tables["Table"].Rows.Count != 0){
+            <table class="table table-bordered" id="tableData">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Consecutivo</th>
+                        <th>Cédula Solicitante</th>
+                        <th>Tipo de Trámite</th>
+                        <th>Plataformista</th>
+                        <th>Recibido</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in ViewBag.dailyProcedure.Tables["Table"].Rows)
+                    { 
+                        <tr>
+                            <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
+                            <td>@row["Consecutivo"]</td> 
+                            <td>@row["Cèdula"]</td>
+                            <td>@row["Tipo de Procedimiento"]</td> 
+                            <td>@row["Plataformista"]</td> 
+                            <td><input type="checkbox"/></td>
+                            <td><button type="button" onclick="transferProcedure('@row["id"]','@row["Consecutivo"]')">Transferir</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+             }else
+            {
+                <div class="alert alert-dismissible alert-info">
+                  <label>No se encontraron trámites dirigidos a su departamento</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            @if (Int32.Parse(Session["isAdministrator"].ToString()) == 1)
+            { 
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administratorMenu", "Menu")'">Regresar</button>
+            }
+            else
+            {
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administrativeMenu", "Menu")'">Regresar</button>
+            }
+        </div>
+        <div class="col-sm-6 btnContainerDaily">
+            <button type="button" class="sendButton" id="init" onclick="init()">Guardar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function transferProcedure(code, consecutive) {
+        window.location.href = '@Url.Action("transferProcedure", "Procedure")?codeProcedure=' + consecutive + '&idProcedure=' + code;
+    }
+
+    function init() {
+        var a= 0
+        $("input[type=checkbox]:checked").each(function () {
+
+            // buscamos el td más cercano en el DOM hacia "arriba"
+            // luego encontramos los td adyacentes a este
+            var currentRow = $(this).closest("tr");
+            var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+            var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+            $.ajax({
+                url: '/Procedure/dailyProcedure',
+                data: { code: col2 },
+                type: 'POST'
+            })
+            a++;
+        });
+        
+        for (i = 0; i < a; i++) {
+            location.reload(true);
+        }
+     
+    }
+        //location.reload(true);
+</script>
+}

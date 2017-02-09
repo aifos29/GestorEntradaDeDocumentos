@@ -1,0 +1,99 @@
+﻿@using System.Data
+<div class="userList">
+		<div class="row col-sm-12">
+			<div class="col-sm-2">
+				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+			</div>
+			<div class="col-sm-10">
+				<h3 class="headerSearchTitle">Lista de Usuarios</h3>
+			</div>
+		</div>
+		<div class="buttonListContainer row col-sm-12"> 
+			<DIV class="col-sm-12">
+				<button class="btnAddUser" onclick ="location.href='@Url.Action("CreateUser", "Administrator")'">Agregar Usuario</button>
+			</DIV>
+		</div>
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
+				<table class="table table-bordered" id ="table" >
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Correo</th>
+							<th>Departamento</th>
+							<th>Eliminar</th>
+                            <th>Editar</th>
+						</tr>
+					</thead>
+					<tbody>
+                        @if (ViewBag.table != null){
+                        foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
+                            { <tr>
+                                <td>@row["Nombre"]</td>
+                                <td>@row["email"]</td> 
+                                <td>@row["Departamento"]</td> 
+                                <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true" id ="remove"></a></td> 
+                                <td><a class="glyphicon glyphicon-pencil editIcon" aria-hidden="true" id ="edit"></a></td>
+                              </tr>
+                        }
+                    }
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
+				<button type="button" class="sendButton" onclick ="location.href='@Url.Action("administratorMenu", "Menu")'">Regresar
+				</button>
+			</div>
+		</div>
+		
+	</div>
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id = "acepted">Aceptar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    var varEmail;
+    $('#table').on('click', '#remove', function () {
+        var currentRow = $(this).closest("tr");
+
+        var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+        var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+        var data = col1 + "\n" + col2 + "\n";
+        varEmail = col2
+        document.getElementById('modalTittle').innerHTML = 'Advertencia';
+        document.getElementById('textMessage').innerHTML = '¿Seguro que desea eliminar al usuario '+col1+'?';
+        $('#errorModal').modal('toggle');
+        
+        $('#acepted').click(function () {
+            location.href = '@Url.Action("deleteUser", "Administrator")?email=' + varEmail;
+        })
+    });
+        
+    $('#table').on('click', '#edit', function () {
+        var currentRow = $(this).closest("tr");
+        var name = currentRow.find("td:eq(0)").text();
+        var userEmail = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+        var department= currentRow.find("td:eq(2)").text();
+        location.href = '@Url.Action("EditUser", "Administrator")?email=' + userEmail + '&name=' + name + '&dep='+department;
+    });
+
+ 
+</script>
+    }

@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSM</name>
+    </assembly>
+    <members>
+        <member name="T:JSM.DataStore.DefaultDataStoreFactory">
+            <summary>
+            Factory for getting the default data store factory for a given type.
+            </summary>
+        </member>
+        <member name="F:JSM.DataStore.DefaultDataStoreFactory._defaultDataStores">
+            <summary>
+            Internal dictionary to store the instantiation functions for several types.
+            </summary>
+        </member>
+        <member name="M:JSM.DataStore.DefaultDataStoreFactory.GetDefaultDataStore(JSM.IJavaScriptModelAware)">
+            <summary>
+            Gets the default data store implementing the <see cref="T:JSM.DataStore.IDataStoreProvider"/>-interface for the given object.
+            </summary>
+            <param name="javaScriptModelAware">
+            The object to search for an default data store provider.
+            </param>
+            <returns>
+            A data store provider implementing the <see cref="T:JSM.DataStore.IDataStoreProvider"/>-interface.
+            </returns>
+        </member>
+        <member name="M:JSM.DataStore.DefaultDataStoreFactory.RegisterDefaultDataStore(System.Type,System.Func{System.Object,JSM.DataStore.IDataStoreProvider})">
+            <summary>
+            Registers a function for instantiating the default data store provider implementing the <see cref="T:JSM.DataStore.IDataStoreProvider"/>-interface for the given type.
+            </summary>
+            <param name="type">
+            The type to register.
+            </param>
+            <param name="instantiationFunc">
+            The function to instantiate the default data store provider implementing the <see cref="T:JSM.DataStore.IDataStoreProvider"/>-interface.
+            </param>
+        </member>
+        <member name="M:JSM.DataStore.DefaultDataStoreFactory.UnregisterAllDefaultDataStores">
+            <summary>
+            Unregisteres all default data stores.
+            </summary>
+        </member>
+        <member name="T:JSM.DataStore.IDataStoreProvider">
+            <summary>
+            Interface for a data store provider.
+            </summary>
+        </member>
+        <member name="M:JSM.DataStore.IDataStoreProvider.SetData(System.String,System.Object)">
+            <summary>
+            Sets the data to the data store.
+            </summary>
+            <param name="key">
+            The key of the data.
+            </param>
+            <param name="value">
+            The value of the data.
+            </param>
+        </member>
+        <member name="M:JSM.DataStore.IDataStoreProvider.GetData(System.String)">
+            <summary>
+            Gets the data of the data store.
+            </summary>
+            <param name="key">
+            The key of the data.
+            </param>
+            <returns>
+            The data from the data store as <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:JSM.DataStore.IDataStoreProvider.ContainsData(System.String)">
+            <summary>
+            Checks whether an data entry exists for the given key.
+            </summary>
+            <param name="key">
+            The key of the data.
+            </param>
+            <returns>
+            true if the data store contains data for the given key, otherwise false.
+            </returns>
+        </member>
+        <member name="T:JSM.IJavaScriptModelAware">
+            <summary>
+            Interface for telling a MVC controller to be aware of the JavaScript Model.
+            </summary>
+        </member>
+        <member name="T:JSM.IJavaScriptModelAwareExtensions">
+            <summary>
+            Extension methods for the use of a JavaScript Model.
+            </summary>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptVariable(JSM.IJavaScriptModelAware,System.String,System.Object,JSM.PageLoadEvent,JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Adds a javascript variable.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="variableName">The variable.</param>
+            <param name="value">The value.</param>
+            <param name="pageLoadEvent">The page load event.</param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptVariables(JSM.IJavaScriptModelAware,JSM.PageLoadEvent,JSM.DataStore.IDataStoreProvider,System.Object[])">
+            <summary>
+            Adds multiple javascript variables.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="variables">Multiple javascript variables beeing passed as: string, dynamic, string, dynamic ...</param>
+            <param name="pageLoadEvent">The <see cref="T:JSM.PageLoadEvent"/>.</param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptVariables(JSM.IJavaScriptModelAware,JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Adds multiple javascript variables.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="variables">Multiple javascript variables beeing passed as: string, dynamic, string, dynamic ...</param>
+            <param name="pageLoadEvent">The <see cref="T:JSM.PageLoadEvent"/>.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptVariables(JSM.IJavaScriptModelAware,System.Object[])">
+            <summary>
+            Adds multiple javascript variables.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="variables">Multiple javascript variables beeing passed as: string, dynamic, string, dynamic ...</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,JSM.PageLoadEvent,JSM.DataStore.IDataStoreProvider,System.Object[])">
+            <summary>
+            Adds a javascript function to the execute queue.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The page load event when the function should be executed.</param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+            <param name="functionParameters">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Adds a javascript function to the execute queue.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The page load event when the function should be executed.</param>
+            <param name="functionParameter">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.AddJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,System.Object[])">
+            <summary>
+            Adds a javascript function to the execute queue.
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="functionParameter">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.InsertJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,JSM.PageLoadEvent,JSM.DataStore.IDataStoreProvider,System.Object[])">
+            <summary>
+            Inserts the function, to set the function to the first of list
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The load event.</param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+            <param name="functionParameters">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.InsertJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Inserts the function, to set the function to the first of list
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The load event.</param>
+            <param name="functionParameters">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.IJavaScriptModelAwareExtensions.InsertJavaScriptFunction(JSM.IJavaScriptModelAware,System.String,System.Object[])">
+            <summary>
+            Inserts the function, to set the function to the first of list
+            </summary>
+            <param name="javaScriptModelAware">An object implementing the <see cref="T:JSM.IJavaScriptModelAware"/> interface.</param>
+            <param name="function">The function.</param>
+            <param name="functionParameters">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="T:JSM.Internal.ExtensionMethods">
+            <summary>
+            Helpful extension methods
+            </summary>
+        </member>
+        <member name="M:JSM.Internal.ExtensionMethods.AddIfNotExist``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            Adds an element with the provided key and value to the <see cref="T:System.Collections.Generic.IDictionary`2"/> if not already existing.
+            </summary>
+            <typeparam name="TKey">
+            The type of keys in the dictionary.
+            </typeparam>
+            <typeparam name="TValue">
+            The type of values in the dictionary.
+            </typeparam>
+            <param name="dictionary">
+            The dictionary to add the provided key and value to.
+            </param>
+            <param name="key">
+            The object to use as the key of the element to add.
+            </param>
+            <param name="value">
+            The object to use as the value of the element to add.
+            </param>
+            <returns>
+            true if the element was added, otherwise false.
+            </returns>
+        </member>
+        <member name="M:JSM.Internal.ExtensionMethods.AddIfNotExist``1(System.Collections.Generic.ICollection{``0},``0)">
+            <summary>
+            Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/> if not already existing.
+            </summary>
+            <typeparam name="TValue">
+            The type of the elements in the collection.
+            </typeparam>
+            <param name="list">
+            The collection to add the provided object to.
+            </param>
+            <param name="value">
+            The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </param>
+            <returns>
+            true if the element was added, otherwise false.
+            </returns>
+        </member>
+        <member name="M:JSM.Internal.ExtensionMethods.AddRange``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+            Merges a dictionary to an existing dictionary. Already existing keys will be ignored.
+            </summary>
+            <typeparam name="TKey">
+            The type of keys in the dictionary.
+            </typeparam>
+            <typeparam name="TValue">
+            The type of values in the dictionary.
+            </typeparam>
+            <param name="dictionary">
+            The existing dictionary.
+            </param>
+            <param name="dictionaryToAdd">
+            The dictionary to add.
+            </param>
+        </member>
+        <member name="T:JSM.Internal.JavaScriptFunctionContainer">
+            <summary>
+            Container for javascript functions
+            </summary>
+        </member>
+        <member name="M:JSM.Internal.JavaScriptFunctionContainer.#ctor(System.String,System.Collections.Generic.IList{System.Object})">
+            <summary>
+            Constructor for the javascript functions container
+            </summary>
+            <param name="function">
+            Name of the function as string.
+            </param>
+            <param name="functionParameters">
+            Parameters to pass to the function.
+            </param>
+        </member>
+        <member name="P:JSM.Internal.JavaScriptFunctionContainer.Function">
+            <summary>
+            The function as string.
+            </summary>
+        </member>
+        <member name="P:JSM.Internal.JavaScriptFunctionContainer.Parameters">
+            <summary>
+            The parameters to pass to the function.
+            </summary>
+        </member>
+        <member name="T:JSM.JavaScriptModel">
+            <summary>
+            This class contains logic to add data for to the JavaScript Model.
+            </summary>
+        </member>
+        <member name="F:JSM.JavaScriptModel._variables">
+            <summary>
+            The JavaScript variables to process.
+            </summary>
+        </member>
+        <member name="F:JSM.JavaScriptModel._functions">
+            <summary>
+            The JavaScript functions to process.
+            </summary>
+        </member>
+        <member name="M:JSM.JavaScriptModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:JSM.JavaScriptModel"/> class.
+            </summary>
+        </member>
+        <member name="M:JSM.JavaScriptModel.AddVariable(System.String,System.Object,JSM.PageLoadEvent)">
+            <summary>
+            Adds a variable.
+            </summary>
+            <param name="variableName">The variable.</param>
+            <param name="value">The value.</param>
+            <param name="pageLoadEvent">The page load event.</param>
+        </member>
+        <member name="M:JSM.JavaScriptModel.AddVariables(JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Adds multiple variables.
+            </summary>
+            <param name="variables">Multiple javascript variables beeing passed as: string, dynamic, string, dynamic ...</param>
+            <param name="pageLoadEvent">The <see cref="T:JSM.PageLoadEvent"/>.</param>
+        </member>
+        <member name="M:JSM.JavaScriptModel.AddFunction(System.String,JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Adds a javascript function.
+            </summary>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The page load event when the function should be executed.</param>
+            <param name="functionParameter">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.JavaScriptModel.InsertFunction(System.String,JSM.PageLoadEvent,System.Object[])">
+            <summary>
+            Inserts the function, to set the function to the first of list
+            </summary>
+            <param name="function">The function.</param>
+            <param name="pageLoadEvent">The load event.</param>
+            <param name="functionParameter">Optional parameters to pass to the javascript function.</param>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetVariables(JSM.PageLoadEvent)">
+            <summary>
+            Gets the JavaScript variables.
+            </summary>
+            <param name="pageLoadEvent">The page load event.</param>
+            <returns>
+            The JavaScript variables
+            </returns>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetFunctions(JSM.PageLoadEvent)">
+            <summary>
+            Gets the additional javascript functions.
+            </summary>
+            <param name="pageLoadEvent">The page load event.</param>
+            <returns>
+            The javascript functions in a serializable format.
+            </returns>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetAllFunctions">
+            <summary>
+            Gets all javascript functions.
+            </summary>
+            <returns>
+            The javascript functions in a serializable format.
+            </returns>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetAllVariables">
+            <summary>
+            Gets all javascript variables.
+            </summary>
+            <returns>
+            The javascript variables in a serializable format.
+            </returns>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetNumberOfVariables">
+            <summary>
+            Gets the number of variables.
+            </summary>
+            <returns>The numer of variables</returns>
+        </member>
+        <member name="M:JSM.JavaScriptModel.GetNumberOfFunctions">
+            <summary>
+            Gets the number of javascript functions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:JSM.JavaScriptModel.HasVariables">
+            <summary>
+            Gets a value indicating whether this instance has additional javascript variables.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has javascript variables; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:JSM.JavaScriptModel.HasFunctions">
+            <summary>
+            Gets a value indicating whether this instance has javascript functions.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has javascript functions; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:JSM.JSMHtmlHelper">
+            <summary>
+            HTML Helper for the javascript model.
+            </summary>
+        </member>
+        <member name="M:JSM.JSMHtmlHelper.GetInitJavaScript(JSM.IJavaScriptModelAware,JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Gets the Init-Javascript which is responsible to fire the Init-event.
+            </summary>
+            <param name="javaScriptModelAware">
+            The object which is aware of the javascript model. Provide this object if you want to use the default data store provider.
+            </param>
+            <param name="dataStoreProvider">
+            The data store provider. Provide this object if you want to use it as data store provider.
+            </param>
+            <returns>
+            A string containing javascript.
+            </returns>
+        </member>
+        <member name="M:JSM.JSMHtmlHelper.GetInitReadyJavaScript">
+            <summary>
+            Gets the InitReady-Javascript which is responsible to fire the InitReady-event.
+            </summary>
+            <returns>
+            A string containing javascript.
+            </returns>
+        </member>
+        <member name="M:JSM.JSMHtmlHelper.GetJavaScriptModelContainer(JSM.IJavaScriptModelAware,JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Gets the html-container for the variables and functions.
+            </summary>
+            <param name="javaScriptModelAware">
+            The object which is aware of the javascript model. Provide this object if you want to use the default data store provider.
+            </param>
+            <param name="dataStoreProvider">
+            The data store provider. Provide this object if you want to use it as data store provider.
+            </param>
+            <returns>
+            A string containing html and the embedded variables/functions.
+            </returns>
+        </member>
+        <member name="M:JSM.JSMHtmlHelper.GetJavaScriptModel(JSM.IJavaScriptModelAware,JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Gets the <see cref="T:JSM.JavaScriptModel"/> either from the provided data store provider or from the default data store provider. 
+            </summary>
+            <param name="javaScriptModelAware">
+            The object which is aware of the javascript model. Provide this object if you want to use the default data store provider.
+            </param>
+            <param name="dataStoreProvider">
+            The data store provider. Provide this object if you want to use it as data store provider.
+            </param>
+            <returns>
+            The <see cref="T:JSM.JavaScriptModel"/> from the provided data store provider.
+            </returns>
+        </member>
+        <member name="T:JSM.PageLoadEvent">
+            <summary>
+            This enum defines the page load events.
+            </summary>
+        </member>
+        <member name="F:JSM.PageLoadEvent.Init">
+            <summary>
+            Init - fired as soon as possible.
+            </summary>
+        </member>
+        <member name="F:JSM.PageLoadEvent.Ready">
+            <summary>
+            Ready - after the document is ready.
+            </summary>
+        </member>
+    </members>
+</doc>

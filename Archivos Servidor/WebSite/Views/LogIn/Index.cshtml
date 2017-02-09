@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+ @using System.Data
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @using System.Web.Optimization
+   
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="logIn">
+		<div class="titleContainer">
+			<img src="@Url.Content("~/Content/Image/escudoSinFondo.png")" class="imageLogIn">
+			<h4 class="titleLogIn">Gestor de Entrada de Documentos </h4>
+		</div>
+        @using (Html.BeginForm("Index", "LogIn"))
+        {
+            <div class="logInForm">
+                <div class="form-group">
+                    <label for="email">Correo</label>
+		            <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Contraseña:</label>
+		            <input type="password" class="form-control" name="pwd" required>
+          
+                </div>
+                <button type="submit" class="logInButton">Ingresar</button>
+            </div>
+		}
+        <div class="alert logInForm">
+          <label>@ViewBag.messege</label>
+        </div>
+	</div>
+    
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

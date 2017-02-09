@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JSM.MVC3</name>
+    </assembly>
+    <members>
+        <member name="M:JSM.MVC3.JSMHttpModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initialization method for the <see cref="T:System.Web.IHttpModule"/>.
+            </summary>
+            <param name="httpApplication">
+            An instance of the <see cref="T:System.Web.HttpApplication"/>.
+            </param>
+        </member>
+        <member name="M:JSM.MVC3.JSMHttpModule.Dispose">
+            <summary>
+            Dispose method.
+            </summary>
+        </member>
+        <member name="T:JSM.MVC3.PreApplicationStartCode">
+            <summary>
+            Code to execute before application start.
+            </summary>
+        </member>
+        <member name="M:JSM.MVC3.PreApplicationStartCode.Start">
+            <summary>
+            Registers the <see cref="T:JSM.MVC3.JSMHttpModule"/>.
+            </summary>
+        </member>
+        <member name="T:System.Web.Mvc.WebViewPageExtensions">
+            <summary>
+            Extension methods for the use of a JavaScript Model.
+            </summary>
+        </member>
+        <member name="M:System.Web.Mvc.WebViewPageExtensions.RenderJavaScriptModelInit``1(System.Web.Mvc.WebViewPage{``0},JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Renders the javascript for the Init-event.
+            </summary>
+            <typeparam name="TModel">
+            The type of the view data model.
+            </typeparam>
+            <param name="webViewPage">
+            The current <see cref="T:System.Web.Mvc.WebViewPage`1"/>.
+            </param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+            <returns>
+            An <see cref="T:System.Web.IHtmlString"/> containing javascript for the Init-event.
+            </returns>
+        </member>
+        <member name="M:System.Web.Mvc.WebViewPageExtensions.RenderJavaScriptModelInitReady``1(System.Web.Mvc.WebViewPage{``0})">
+            <summary>
+            Renders the javascript for the InitReady-event.
+            </summary>
+            <typeparam name="TModel">
+            The type of the view data model.
+            </typeparam>
+            <param name="webViewPage">
+            The current <see cref="T:System.Web.Mvc.WebViewPage`1"/>.
+            </param>
+            <returns>
+            An <see cref="T:System.Web.IHtmlString"/> containing javascript for the Init-event.
+            </returns>
+        </member>
+        <member name="M:System.Web.Mvc.WebViewPageExtensions.RenderJavaScriptModelContainer``1(System.Web.Mvc.WebViewPage{``0},JSM.DataStore.IDataStoreProvider)">
+            <summary>
+            Renders a html container containing the javascript variables and javascript functions.
+            </summary>
+            <typeparam name="TModel">
+            The type of the view data model.
+            </typeparam>
+            <param name="webViewPage">
+            The current <see cref="T:System.Web.Mvc.WebViewPage`1"/>.
+            </param>
+            <param name="dataStoreProvider">
+            An optional data store provider.
+            </param>
+            <returns>
+            An <see cref="T:System.Web.IHtmlString"/> containing a html container containing the javascript variables and javascript functions.
+            </returns>
+        </member>
+    </members>
+</doc>

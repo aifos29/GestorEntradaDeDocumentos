@@ -1,0 +1,431 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Visualizar Estadísticas";
+}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div class="searchProcedure">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-10">
+            <h3 class="headerSearchTitle">Visualizar Estadísticas</h3>
+        </div>
+    </div>
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-4">
+            <button class="searchButton" id = "btnShowDate" >Buscar por Fecha</button>
+        </div>
+        <div class="col-sm-4">
+            <select name="department" class="searchButton" runat="server" id="department" required>
+                <option disabled="" selected="">Buscar por Departamento</option>
+                 @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                 {
+                     <option value="@row["department"]">@row["department"]</option>
+                 }
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <select name="platformist" class="searchButton" runat="server" id="platformist" required>
+                <option disabled="" selected="">Buscar por Plataformista</option>
+                 @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
+                 {
+                     <option value="@row["name"]">@row["name"]</option>
+                 }
+            </select>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12" id="divDate">
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">de</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" name="dateBegin" class="form-control" id="from">
+        </div>
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">al</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" name="dateEnd" class="form-control" id="to">
+        </div>
+        <div class="col-sm-3">
+            <button class="btnSearch" id="byDate">Buscar</button>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12">
+        <h4 class="labelForTitleStatistic" id="titleForTable"></h4>
+        <div class="col-sm-12" id="tbl">
+            <div id="ChartPrincipal"></div> 
+            <div id="ChartSecundary"></div>
+            <div class="alert alert-dismissible alert-info" id="divAlert">
+              <label id="messageError"></label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            @if (Int32.Parse(Session["isABoss"].ToString()) == 0)
+            { 
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormMenu", "Menu")'">Regresar</button>
+            }else 
+            {
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'"> Regresar</button>
+            }
+        </div>
+       
+        <div class="col-sm-6 btnExportContainer" id="btnExportPDFContainer">
+            <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
+        </div>
+
+    </div>
+ </div>
+
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+@section Scripts {
+<script>
+    $('#ChartPrincipal').hide();
+    $('#ChartSecundary').hide();
+    $('#divDate').hide();
+    $('#titleForTable').hide();
+    $('#divAlert').hide();
+
+    var chartPrincipalUrl;
+    var chartSecundary;
+
+
+    //Variables para el exportar
+    var chartType;
+    var dateBegin;
+    var dateEnd;
+    var chartName;
+
+    $('#btnShowDate').click(function () {
+        chartPrincipalUrl = null;
+        chartSecundary = null;
+        $('#titleForTable').hide();
+        $('#ChartPrincipal').empty();
+        $('#ChartSecundary').empty();
+        $('#divAlert').hide();
+
+        $('#from').val('yyyy-MM-dd');
+        $('#to').val('yyyy-MM-dd');
+        $('#department').prop('selectedIndex', 0)
+        $('#platformist').prop('selectedIndex', 0)
+        .error(function (xhr, status) {
+            alert(status);
+        })
+        $('#divDate').show();
+    });
+
+    $('#platformist').change(function () {
+        chartPrincipalUrl = null;
+        chartSecundaryUrl = null;
+        $('#titleForTable').hide();
+        $('#ChartPrincipal').empty();
+        $('#ChartSecundary').empty();
+        $('#divAlert').hide();
+        $('#divDate').hide();
+
+        $('#department').prop('selectedIndex', 0);
+
+        var idVal = $('#platformist').val();
+        var chartTitle = 'plataformista ' + idVal;
+        var message = 'registrados por ' + idVal;
+
+        chartType = "P";
+        chartName = idVal;
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: { code: idVal },
+            url: '@Url.Action("getStadisticByPlataformer", "Procedure")',
+            success: function (result) {
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(function () {
+                    drawChart(result, chartTitle, message, 'P');
+                });
+            }
+        });
+    });
+
+    $('#department').change(function () {
+        chartPrincipalUrl = null;
+        chartSecundaryUrl = null;
+        $('#titleForTable').hide();
+        $('#ChartPrincipal').empty();
+        $('#ChartSecundary').empty();
+        $('#divAlert').hide();
+        $('#divDate').hide();
+        $('#platformist').prop('selectedIndex', 0);
+
+        var idVal = $('#department').val();
+        var chartTitle = 'departamento ' + idVal;
+        var message = 'dirigidos a ' + idVal;
+
+        chartType = "D";
+        chartName = idVal;
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: { code: idVal },
+            url: '@Url.Action("getStadisticByDepartment", "Procedure")',
+            success: function (result) {
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(function () {
+                    drawChart(result, chartTitle, message, 'D');
+                });
+            }
+        });
+    });
+
+    $('#byDate').click(function () {
+        $('#titleForTable').hide();
+        $('#ChartPrincipal').empty();
+        $('#ChartSecundary').empty();
+        $('#divAlert').hide();
+        var idFrom = $('#from').val();
+        var idTo = $('#to').val();
+
+        if (idTo == '' || idFrom == '') {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
+            $('#errorModal').modal('toggle');
+        }
+        else {
+            if (idFrom.replace('-', '/') > idTo.replace('-', '/')) {
+                document.getElementById('modalTittle').innerHTML = 'Error';
+                document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+                $('#errorModal').modal('toggle');
+            }
+            if (idFrom.replace('-', '/') <= idTo.replace('-', '/')) {
+                dateBegin = idFrom;
+                dateEnd = idTo;
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { to: idTo, from: idFrom },
+                    url: '@Url.Action("getStadisticByDateForDeparment", "Procedure")',
+                    success: function (result) {
+                        google.charts.load('current', {
+                            'packages': ['corechart']
+                        });
+                        google.charts.setOnLoadCallback(function () {
+                            drawChartDepartment(result, idFrom, idTo);
+                        });
+                    }
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { to: idTo, from: idFrom },
+                    url: '@Url.Action("getStadisticByDateForPlataformer", "Procedure")',
+                    success: function (result) {
+                        google.charts.load('current', {
+                            'packages': ['corechart']
+                        });
+                        google.charts.setOnLoadCallback(function () {
+                            drawChartPlataformers(result, idFrom, idTo);
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+    $('#exportPDF').click(function () {
+        if (chartPrincipalUrl != null) {
+            if (chartSecundaryUrl != null)
+            {
+                $.ajax({
+                    url: '/Reports/createStatisticByDatePDF',
+                    data: { urlDepartment: chartPrincipalUrl, urlPlatform: chartSecundaryUrl, date1: dateBegin, date2: dateEnd },
+                    type: 'POST',
+                    dataType: 'text'
+
+                })
+                .success(function (result) {
+                    document.getElementById('modalTittle').innerHTML = 'Éxito';
+                    document.getElementById('textMessage').innerHTML = 'Archivo guardado como PDF';
+                    $('#errorModal').modal('toggle');
+                })
+                .error(function (xhr, status) {
+                    alert(status);
+                });
+            } else {
+                $.ajax({
+                    url: '/Reports/createStatisticPDF',
+                    data: { chartURL: chartPrincipalUrl, chartType: chartType, chartName: chartName },
+                    type: 'POST',
+                    dataType: 'text'
+
+                })
+                .success(function (result) {
+                    document.getElementById('modalTittle').innerHTML = 'Éxito';
+                    document.getElementById('textMessage').innerHTML = 'Archivo guardado como PDF';
+                    $('#errorModal').modal('toggle');
+                })
+                .error(function (xhr, status) {
+                    alert(status);
+                });
+            }
+        } else {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
+            $('#errorModal').modal('toggle');
+        }
+    });
+
+    function drawChartDepartment(dataValues, idFrom, idTo) {
+        var fromDate = idFrom.split('-')[2] + "/" + idFrom.split('-')[1] + "/" + idFrom.split('-')[0];
+        var toDate = idTo.split('-')[2] + "/" + idTo.split('-')[1] + "/" + idTo.split('-')[0];
+        document.getElementById('titleForTable').innerHTML = 'Estadísticas obtenidas por el período del ' + fromDate + ' al ' + toDate;
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Departamento');
+        data.addColumn('number', 'Cantidad');
+
+        var test = JSON.parse(dataValues);
+        var dataArray = [];
+
+        $.each(test, function (i, obj) {
+            dataArray.push([obj.department, obj.Cantidad]);
+        });
+
+        if (dataArray.length == 0) {
+            chartPrincipalUrl = null;
+            document.getElementById('messageError').innerHTML ='No se encontraron trámites registrados en el período consultado';
+            $('#divAlert').show();
+        }
+        else {
+            data.addRows(dataArray);
+            var barchart_options = {
+                title: "Gráfica por Departamentos del  " + fromDate + " al " + toDate,
+                width: 900,
+                height: 300
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('ChartPrincipal'));
+
+            chart.draw(data, barchart_options);
+            chartPrincipalUrl = chart.getImageURI();
+            $('#titleForTable').show();
+            $('#ChartPrincipal').show();
+        }
+        $('#titleForTable').show();
+    }
+
+    function drawChartPlataformers(dataValues, idFrom, idTo) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Plataformista');
+        data.addColumn('number', 'Cantidad');
+
+        var test = JSON.parse(dataValues);
+        var dataArray = [];
+
+        $.each(test, function (i, obj) {
+            dataArray.push([obj.name, obj.Cantidad]);
+        });
+
+        if (dataArray.length == 0) {
+            chartSecundaryUrl = null;
+        }
+
+        else {
+            var fromDate = idFrom.split('-')[2] + "/" + idFrom.split('-')[1] + "/" + idFrom.split('-')[0];
+            var toDate = idTo.split('-')[2] + "/" + idTo.split('-')[1] + "/" + idTo.split('-')[0];
+            data.addRows(dataArray);
+            var barchart_options = {
+                title: "Gráfica por Plataformistas del  " + fromDate + " al " + toDate,
+                width: 900,
+                height: 300
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('ChartSecundary'));
+
+            chart.draw(data, barchart_options);
+            chartSecundaryUrl = chart.getImageURI();
+            $('#ChartSecundary').show();
+        }
+    }
+
+    function drawChart(dataValues, chartTitle, message, type) {
+        document.getElementById('titleForTable').innerHTML = 'Estadísticas de trámites ' + message;
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Mes');
+        data.addColumn('number', 'Cantidad');
+
+        var test = JSON.parse(dataValues);
+        var dataArray = [];
+
+        $.each(test, function (i, obj) {
+            dataArray.push([obj.Mes, obj.cantidad]);
+        });
+
+        if (dataArray == 0) {
+            chartPrincipalUrl = null;
+            if (type == 'P') {
+                document.getElementById('messageError').innerHTML = 'No se encontraron trámites registrados por el plataformista seleccionada';
+            } else {
+                document.getElementById('messageError').innerHTML = 'No se encontraron trámites dirigidos al departamento seleccionado';
+            }
+            $('#divAlert').show();
+        }
+        else {
+            data.addRows(dataArray);
+
+            var barchart_options = {
+                title: "Gráfica Anual del " + chartTitle,
+                width: 900,
+                height: 300,
+                legend: 'none'
+            };
+
+            
+            var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
+
+            chart.draw(data, barchart_options);
+            chartPrincipalUrl = chart.getImageURI();
+            
+            $('#ChartPrincipal').show();
+        }
+        $('#titleForTable').show();
+    }
+</script>
+}
+    

@@ -1,0 +1,233 @@
+﻿@using System.Data
+@{
+    ViewBag.Title = "Buscar Oficio";
+}
+
+<div class="searchProcedure">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-10">
+            <h3 class="headerSearchTitle">Buscar Oficios</h3>
+        </div>
+    </div>
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-3">
+            <button class="searchButton" id = "btnShowDate" >Buscar por Fecha</button>
+        </div>
+        <div class="col-sm-3">
+            <select name="department" class="searchButton" runat="server" id="department" required>
+                <option disabled="" selected="">Buscar por Departamento</option>
+                 @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["department"]">@row["department"]</option>
+                                    }
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <select name="platformist" class="searchButton dropDownSearch" runat="server" id="platformist" required>
+                <option disabled="" selected="">Buscar por Plataformista</option>
+                            @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
+                                    {
+                                        <option value="@row["name"]">@row["name"]</option>
+                                    }
+                
+
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <button class="searchButton"  id = "btnShowCode" >Buscar por Código</button>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12" id="divDate">
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">de</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" name="dateBegin" class="form-control" id="from">
+        </div>
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">al</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" name="dateEnd" class="form-control" id="to">
+        </div>
+        <div class="col-sm-3">
+            <button class="btnSearch" id="byDate">Buscar</button>
+        </div>
+    </div>
+
+
+    <div class="searchDivContainer row col-sm-12" id="divCode">
+        <div class="labelSearchDiv col-sm-4">
+            <label class="labelSearch">Ingrese el código del trámite:</label>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="searchCode" class="form-control" id="code">
+        </div>
+        <div class="col-sm-4">
+            <button class="btnSearch" id="byCode">Buscar</button>
+        </div>
+
+
+
+    </div>
+    <div class="searchDivContainer row col-sm-12">
+        <h4 class="labelForTitleStatistic" id="titleForTable"></h4>
+        <div class="col-sm-12" id="tbl">
+
+        </div>
+    </div>
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-12">
+            <button type="button" class="sendButton" aria-label="Left Align" onClick="location.href='@Url.Action("platFormMenu", "Menu")'">
+                Regresar
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    var divDate = document.getElementById('divDate');
+    divDate.style.display = 'none';
+    var divCode = document.getElementById('divCode');
+    divCode.style.display = 'none';
+
+    $('#department').change(function () {
+        document.getElementById('titleForTable').innerHTML = '';
+        $('#tbl').empty();
+        divDate.style.display = 'none';
+        divCode.style.display = 'none'
+        $('#platformist').prop('selectedIndex', 0)
+        var idVal = $('#department').val();
+
+        document.getElementById('titleForTable').innerHTML = 'Búsqueda de trámites dirigidos a ' + idVal;
+        $.ajax({
+            url: '/Procedure/searchDepartment',
+            contentType: 'application/html; charset=utf-8',
+            data: { dep: idVal },
+            type: 'GET',
+            dataType: 'text'
+ 
+        })
+        $('#tbl').load('/Procedure/searchDepartment', { dep: idVal })
+
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+
+    $('#platformist').change(function () {
+        document.getElementById('titleForTable').innerHTML = '';
+        $('#tbl').empty();
+        divDate.style.display = 'none';
+        divCode.style.display = 'none'
+        $('#department').prop('selectedIndex', 0)
+        var idVal = $('#platformist').val();
+
+        document.getElementById('titleForTable').innerHTML = 'Búsqueda de trámites realizados por ' + idVal;
+        $.ajax({
+            url: '/Procedure/searchPlatformist',
+            contentType: 'application/html; charset=utf-8',
+            data: { plat: idVal },
+            type: 'GET',
+            dataType: 'text'
+
+        })
+        $('#tbl').load('/Procedure/searchPlatformist', { plat: idVal })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+
+    $('#byDate').click(function(){
+        var idFrom = $('#from').val();
+        var idTo = $('#to').val();
+        if (idFrom == '' && idTo != '' || idFrom != '' && idTo == '' || idFrom == '' && idTo == '') {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
+            $('#errorModal').modal('toggle');
+        }
+        else {
+            if (idFrom.replace('-', '/') > idTo.replace('-', '/')) {
+                document.getElementById('modalTittle').innerHTML = 'Error';
+                document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+                $('#errorModal').modal('toggle');
+            }
+            if (idFrom.replace('-', '/') <= idTo.replace('-', '/')) {
+                $('#tbl').load('/Procedure/searchByDate', { from: idFrom, to: idTo })
+                .error(function (xhr, status) {
+                    alert(status);
+                });
+            }
+        }
+    })
+
+    $('#byCode').click(function () {
+        var idCode = $('#code').val();
+        if (idCode == '') {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Ingrese un código en el espacio brindado';
+            $('#errorModal').modal('toggle');
+        }
+        else {
+            document.getElementById('titleForTable').innerHTML = 'Trámite obtenido con el código '+ idCode;
+            $('#tbl').load('/Procedure/searchByCode', { code: idCode })
+            .error(function (xhr, status) {
+                alert(status);
+            });
+        }
+    })
+    
+    $('#btnShowDate').click(function () {
+        document.getElementById('titleForTable').innerHTML = '';
+        $('#tbl').empty();
+        $('#from').val('yyyy-MM-dd');
+        $('#to').val('yyyy-MM-dd');
+        var divDate = document.getElementById('divDate');
+        divDate.style.display = 'block';
+        divCode.style.display = 'none'
+        $('#department').prop('selectedIndex', 0)
+        $('#platformist').prop('selectedIndex', 0)
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    })
+    
+    $('#btnShowCode').click(function () {
+        $('#code').val('');
+        document.getElementById('titleForTable').innerHTML = '';
+        $('#tbl').empty();
+        var divDate = document.getElementById('divDate');
+        divDate.style.display = 'none';
+        divCode.style.display = 'block'
+        $('#department').prop('selectedIndex', 0)
+        $('#platformist').prop('selectedIndex', 0)
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    })
+    
+
+</script>
+    }

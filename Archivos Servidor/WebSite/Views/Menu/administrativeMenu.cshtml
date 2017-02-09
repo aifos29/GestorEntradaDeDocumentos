@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Menu Principal";
+}
+
+<div class="menu">
+    <div class="row col-sm-8">
+        <div class="col-sm-3">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-9">
+            <h3 class="menuHeaderTitle">Menú Principal</h3>
+        </div>
+    </div>
+    <div class="row col-sm-8">
+        <div class="col-sm-12">
+            <button type="button" class="menuButton" onClick="location.href='@Url.Action("dailyProcedure", "Procedure")'">Recibir Documentos Diarios</button>
+            <button type="button" class="menuButton" onClick="location.href='@Url.Action("displayProcedure", "Procedure")'">Vizualizar Trámite</button>
+            <button type="button" class="menuButton" onClick="location.href='@Url.Action("Index", "LogIn")'">Salir</button>
+        </div>
+    </div>
+</div>

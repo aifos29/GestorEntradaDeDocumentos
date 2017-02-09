@@ -1,0 +1,222 @@
+﻿@using System.Data
+
+<div class="editProcedure">
+		<div class=" row col-sm-12">
+			<div class="imageContainer col-sm-4">
+				<img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
+			</div>
+			<div class=" col-sm-8">
+				<h4 class="headerTitle">Editar Trámite</h4>
+			</div>
+		</div>
+		<div class="row col-sm-12 editContainer">
+			<div class="col-sm-4 editRow">
+				<label>Ingrese el código del Trámite:</label>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" runat="server" name="searchCode" id="searchCode" class="form-control" placeholder="Ej: HR-0-2017">
+			</div>
+			<div class="col-sm-2">
+				<button class="editButton" id="getProcedureData">Obtener</button><a href="Edit.cshtml"></a>
+			</div>
+		</div>
+        
+        <div class="row col-sm-12 editContainer" id="errorShow">
+			<div  class="alert alert-dismissible alert-info">
+               <label>No se encontraron trámites con el código ingresado</label>
+            </div>
+		</div>
+        
+		<div class="row col-sm-12" id="formContainer" name="formContainer">
+            @using (Html.BeginForm("saveChangedProcedure", "Procedure"))
+            {
+                 <div class="col-sm-12 form-horizontal">
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="procedureDate">Fecha:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+			              <input type="date" name="procedureDate" class="form-control" runat="server" id="procedureDate" placeholder="dd/mm/aaaa" required readonly="">
+			            </div>
+			          </div>
+                    
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="department">Departamento:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+                            <input type="text" name="department" class="form-control" runat="server" id="department" required readonly="">
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="codeProcedure">Código:</label>
+			  	        </div>
+			            <div class="col-sm-8" id="divCodeContainer">
+                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="idType">Tipo de Cédula:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+				            <select name="idType" class="form-control" runat="server" id="idType" required>
+				    	        <option value="" disabled selected="">Seleccione el tipo de identificación</option>
+                                    @foreach (DataRow row in ViewBag.identifyType.Tables["IdentifyTypeList"].Rows)
+                                    {
+                                        <option value="@row["idTypeOfIdentify"]">@row["TypeOfIdentify"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="personId">Cédula del Solicitante:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+			              <input type="text" runat="server" name="personId" id="personId" class="form-control" required>
+			            </div>
+			          </div>
+                     <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="personName">Nombre del Solicitante:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+			              <input type="text" runat="server" name="personName" id="personName" class="form-control" required>
+			            </div>
+			          </div>
+                     <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="personContact">Contacto del Solicitante:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+			              <input type="text" runat="server" name="personContact" id="personContact" class="form-control" placeholder="Ingrese correo electrónico o numero telefónico" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="procedureType">Tipo de Trámite:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+				            <select name="procedureType" class="form-control" runat="server" id="procedureType" required>
+				    	        <option value="" disabled selected="">Seleccione el tipo de Trámite</option>
+                                    @foreach (DataRow row in ViewBag.procedureType.Tables["ProcedureTypeList"].Rows)
+                                    {
+                                        <option value="@row["idTypeOfProcedure"]">@row["TypeOfProcedure"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="procedureDetail">Detalle del Trámite:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+			              <textarea class="form-control" name="procedureDetail" rows="5" cols="30" id="procedureDetail" placeholder="Ingrese una descripción del documento a registrar" runat="server" maxlength="300" required></textarea>
+			            </div>
+			          </div>
+			          <div class="buttonDiv form-group"> 
+			  	        <div class="  col-sm-6">
+			    	        <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">Regresar
+					        </button>
+			            </div>
+			            <div class=" col-sm-6">
+			    	        <button type="submit" class="sendButton">Guardar</button>
+			            </div>
+			          </div>
+			    </div>
+            }
+		</div>
+
+        <div class="row col-sm-12 buttonBackEdit" id="divButtonBack"> 
+            <div class="col-sm-6">
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">Regresar</button>
+            </div>
+        </div>
+</div>
+
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    $('#formContainer').hide();
+    $('#errorShow').hide();
+
+    $('#getProcedureData').click(function () {
+        var code = $('#searchCode').val();
+        if (code != '') {
+            $.ajax({
+                url: '/Procedure/getProcedureData',
+                contentType: 'application/html; charset=utf-8',
+                data: { procedureCode: code },
+                type: 'GET',
+                dataType: 'json'
+
+            })
+            .success(function (result) {
+                if (jQuery.isEmptyObject(result)) {
+                    $('#formContainer').hide();
+                    $('#errorShow').show();
+                    $('#divButtonBack').show();
+                } else {
+                    $('#formContainer').show();
+                    $('#errorShow').hide();
+                    $('#procedureDate').val(result[1]);
+                    $('#department').val(result[4]);
+                    $('#codeProcedure').val(result[0]);
+                    $('#idType').val(result[6]);
+                    $('#personId').val(result[3]);
+                    $('#personName').val(result[7]);
+                    $('#personContact').val(result[8]);
+                    $('#procedureType').val(result[5]);
+                    $('#procedureDetail').text(result[2]);
+                    $('#divButtonBack').hide();
+                }
+
+            })
+            .error(function (xhr, status) {
+                alert(status);
+            })
+        } else {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Debe de ingresar un código en el espacio brindado';
+            $('#errorModal').modal('toggle');
+        }
+    });
+
+    $('#idType').change(function () {
+        var idVal = $('#idType').val();
+        $.ajax({
+            url: '/Procedure/updateFormatId',
+            contentType: 'application/html; charset=utf-8',
+            data: { idTypeOfIdentify: idVal },
+            type: 'GET',
+            dataType: 'json'
+
+        })
+        .success(function (result) {
+            $("#personId").attr("placeholder", result[0]);
+            $("#personId").attr("pattern", result[1]);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+</script>
+}

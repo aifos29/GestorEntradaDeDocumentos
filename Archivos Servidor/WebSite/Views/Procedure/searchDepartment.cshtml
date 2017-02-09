@@ -1,0 +1,43 @@
+﻿@model IEnumerable<GestorDocumentosEntrada.Models.ProcedureConnection>
+@{ Layout = null;}
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body>
+    @if (ViewBag.searchTable.Tables["Table"].Rows.Count != 0)
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Consecutivo</th>
+                    <th>Detalle</th>
+                    <th>Cédula</th>
+                    <th>Estado del Trámite</th>
+                    <th>Tipo de Trámite</th>
+                    <th>Plataformistas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in ViewBag.searchTable.Tables["Table"].Rows)
+                { 
+                    <tr>
+                        <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
+                        <td>@row["Consecutivo"]</td> 
+                        <td>@row["Detalle"]</td> 
+                        <td>@row["Cèdula"]</td> 
+                        <td>@row["Estado"]</td> 
+                        <td>@row["Tipo de Procedimiento"]</td> 
+                        <td>@row["Plataformista"]</td> 
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }else {
+        <div class="alert alert-dismissible alert-info">
+          <label>No se encontraron trámites dirigidos al departamento seleccionado</label>
+        </div>
+    }
+</body>
+</html>

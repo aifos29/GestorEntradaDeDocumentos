@@ -1,0 +1,19 @@
+﻿<div class="successInsertProcedure">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Edición Realizada Exitosamente</h2>
+      </div>
+      <div class="col-sm-12 messageContainer">
+        <h3>Sus cambios del trámite <b>@ViewBag.code</b> se han guardado exitosamente </h3>
+      </div>
+      <div class="col-sm-12 buttonSuccessDiv">
+        
+          <div class="col-sm-6">
+            <button onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'" class="sendButton">Finalizar</button>
+        </div>
+          <div class="col-sm-6">
+            <button onClick="location.href='@Url.Action("Edit", "Procedure")'" class="sendButton">Editar Otro Trámite</button>
+        </div>
+      </div>
+    </div>
+  </div>

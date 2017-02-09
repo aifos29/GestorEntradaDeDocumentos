@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Bitacora";
+}
+
+<div class="searchProcedure">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-10">
+            <h3 class="headerSearchTitle">Generar Bitácora</h3>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12" id="divDate">
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">de</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" class="form-control" id="dateBegin">
+        </div>
+        <div class="labelSearchDiv col-sm-1">
+            <label class="labelSearch">al</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" class="form-control" id="dateEnd">
+        </div>
+        <div class="col-sm-3">
+            <button class="btnSearch" id="searchDate">Buscar</button>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-12" id="tbl">
+
+        </div>
+    </div>
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">Regresar</button>
+        </div>
+        <div class="col-sm-6 btnExportContainer" id="btnExportPDFContainer">
+            <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
+        </div>
+    </div>
+</div>
+
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+@section Scripts {
+<script>
+
+    var from;
+    var to;
+    $('#searchDate').click(function () {
+        var dateBegin = $('#dateBegin').val();
+        var dateEnd = $('#dateEnd').val();
+        if (dateBegin == '' || dateEnd == '') {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
+            $('#errorModal').modal('toggle');
+        }
+        else {
+            if (dateBegin.replace('-', '/') > dateEnd.replace('-', '/')) {
+                document.getElementById('modalTittle').innerHTML = 'Error';
+                document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+                $('#errorModal').modal('toggle');
+            }
+            if (dateBegin.replace('-', '/') <= dateEnd.replace('-', '/')) {
+                from = dateBegin;
+                to = dateEnd;
+                $('#tbl').load('/Reports/getBinnacle', { from: dateBegin, to: dateEnd })
+                .error(function (xhr, status) {
+                    alert(status);
+                })
+            }
+        }
+    });
+
+    $('#exportPDF').click(function () {
+        if (from != null && to != null) {
+            $.ajax({
+                url: '/Reports/createBinnaclePDF',
+                contentType: 'application/html; charset=utf-8',
+                data: { date1: from, date2: to },
+                type: 'GET',
+                dataType: 'text'
+
+            })
+            .success(function (result) {
+                console.log(result);
+                if (result == 'yes') {
+                    document.getElementById('modalTittle').innerHTML = 'Éxito';
+                    document.getElementById('textMessage').innerHTML = 'Archivo guardado como PDF';
+                    $('#errorModal').modal('toggle');
+                }
+                else {
+                    document.getElementById('modalTittle').innerHTML = 'Error';
+                    document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
+                    $('#errorModal').modal('toggle');
+                }
+
+            })
+            .error(function (xhr, status) {
+                alert(status);
+            })
+        } else {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
+            $('#errorModal').modal('toggle');
+        }
+      
+    });
+</script>
+    }

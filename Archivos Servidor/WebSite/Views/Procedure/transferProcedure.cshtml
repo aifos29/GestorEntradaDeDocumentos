@@ -1,0 +1,70 @@
+﻿@using System.Data
+
+<div class="editProcedure">
+		<div class=" row col-sm-12">
+			<div class="imageContainer col-sm-4">
+				<img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
+			</div>
+			<div class=" col-sm-8">
+				<h4 class="headerTitle">Transferir Trámite a Otro Departamento</h4>
+			</div>
+		</div>
+		<div class="row col-sm-12" id="formContainer">
+            @using (Html.BeginForm("saveTransferProcedure", "Procedure"))
+            {
+                 <div class="col-sm-12 form-horizontal">
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="procedureDate">Fecha:</label>
+			  	        </div>
+			            <div class="  col-sm-8">
+			              <input type="date" name="procedureDate" class="form-control" runat="server" id="procedureDate" required readonly="" value="@ViewBag.date">
+			            </div>
+			          </div>
+			          
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="codeProcedure">Código:</label>
+			  	        </div>
+			            <div class="col-sm-8" id="divCodeContainer">
+                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required value="@ViewBag.codeProcedure">
+                             <input type="number" runat="server" name="idProcedure" id="idProcedure" class="form-control" readonly="" style="display:none" required value="@ViewBag.idProcedure">
+			            </div>
+			          </div>
+                     <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="department">Departamento:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+				            <select name="department" class="form-control" runat="server" id="department" required>
+				    	        <option value="" disabled selected="">Seleccione un departamento</option>
+                                    @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-sm-4">
+			  		        <label class="control-label" for="justification">Justificación:</label>
+			  	        </div>
+			            <div class="col-sm-8">
+			              <textarea class="form-control" name="justification" rows="5" cols="30" id="justification" placeholder="Ingrese una justificación por lo que transfiere el trámite" runat="server" maxlength="300" required></textarea>
+			            </div>
+			          </div>
+			          <div class="buttonDiv form-group"> 
+			  	        <div class="  col-sm-6">
+			    	        <button type="button" class="sendButton" onClick="location.href='@Url.Action("dailyProcedure", "Procedure")'">
+						        Regresar
+					        </button>
+			            </div>
+			            <div class=" col-sm-6">
+			    	        <button type="submit" class="sendButton">Transferir</button>
+			            </div>
+			          </div>
+			    </div>
+            }
+		</div>
+    
+</div>

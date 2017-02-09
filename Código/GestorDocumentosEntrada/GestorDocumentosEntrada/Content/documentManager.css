@@ -1,0 +1,389 @@
+﻿label {
+    font-size: 14px;
+}
+
+.divHeaderWelcome {
+    margin: auto;
+    margin-top: 3em !important;
+    width: 900px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.labelUserWelcome {
+    text-align: right;
+}
+
+.labelTitleWelcome {
+    text-align: left;
+    color: gray;
+}
+
+.successInsertProcedure {
+    margin-top: 5em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 800px;
+	text-align: center;
+}
+
+/**********CSS para las páginas de menú**********/
+.menu {
+	margin-top: 3em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 480px;
+	text-align: center;
+}
+
+.menuButton {
+	margin: 0.8em;
+	text-align: center;
+	width: 400px;
+	height: 60px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+	font-size: 16px;
+}
+
+.menuHeaderTitle {
+	font-weight: bold;
+	padding: 1em;
+	width: 12em;
+}
+
+.menuHeaderImage {
+	padding: 1em;
+	margin-left: 1em;
+	width: auto;
+	height: 13em;
+}
+
+/**********CSS para login**********/
+.logIn {
+	margin-top: 7em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 400px;
+}
+
+.titleContainer {
+	text-align: center;
+}
+
+.titleLogIn {
+	font-weight: bold;
+}
+
+.logInForm {
+	margin-top: 4em;
+}
+
+.logInButton {
+	margin-top: 1em;
+	text-align: center;
+	width: 380px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+	font-size: 16px;
+}
+
+.imageLogIn {
+	width: auto;
+	height: 120px;
+}
+
+/**********CSS para las páginas de insertar**********/
+.addProcedure {
+	margin-top: 2em !important;
+	margin: auto;
+	width: 700px;
+}
+
+.headerTitle {
+	font-weight: bold;
+	margin-top: 1.5em;
+}
+
+.imageContainer {
+    text-align: right;
+}
+
+.headerImage {
+	margin-left: 5em;
+}
+
+.buttonDiv {
+	text-align: right;
+	margin-top: 2em;
+}
+
+input,select, textarea {
+	border-radius: 0 !important;
+}
+
+.sendButton {
+	text-align: center;
+	width: 200px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	border-radius: 0 !important;
+	color: #EBDC07;
+	font-size: 14px;
+}
+
+.backButton {
+	text-align: left;
+	width: 40px;
+	height: 40px;
+	background-color: white !important;
+	border: solid white !important;
+	border-radius: 0 !important;
+	font-size: 20px;
+    margin-left: 0.5em;
+}
+
+form {
+	margin-top: 2em;
+}
+
+.labelDiv {
+	text-align: right;
+}
+
+/**********CSS para las páginas de buscar**********/
+.searchProcedure {
+	margin-top: 2em !important;
+	margin: auto;
+	width: 900px;
+	height: auto;
+}
+
+.headerSearchTitle {
+	font-weight: bold;
+	margin-top: 2em;
+}
+
+.searchButton {
+	text-align: center;
+	width: 200px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	border-radius: 0 !important;
+	color: #EBDC07;
+	font-size: 14px;
+}
+
+.buttonBackDiv {
+	text-align: left;
+	margin-top: 1.8em;
+}
+
+.searchDivContainer {
+	margin-top: 3.5em;
+    margin-left: 0.6em !important;
+}
+
+.labelSearchDiv {
+	text-align: center;
+}
+
+.labelSearch {
+	padding-top: 0.5em;
+}
+
+.btnSearch {
+	width: 200px;
+	height: 34px;
+    font-size: 13px !important;
+}
+
+.dropDownSearch.selected {
+    background: red;
+}
+
+#tbl {
+    margin-top: 2em;
+}
+
+/**********CSS para las páginas de estadisticas**********/
+.statisticProcedure {
+	margin-top: 2em !important;
+	margin: auto;
+	width: 800px;
+	height: auto;
+}
+
+.btnStatistic {
+	width: 150px;
+	height: 34px;
+}
+
+.colorRow {
+	border: 2px solid green;
+}
+
+.headerStatisticTitle {
+	font-weight: bold;
+	margin-top: 2em;
+}
+
+.headerStatisticImage {
+	width: auto;
+	height: 9em;
+}
+
+.labelForTitleStatistic {
+    font-weight: bold;
+    margin-left: 1em !important;
+}
+/**********CSS para las páginas de editar**********/
+.editProcedure {
+	margin-top: 2em !important;
+	margin: auto;
+	width: 700px;
+}
+
+.editContainer {
+	margin-top: 2em !important;
+    margin-bottom: 2em !important;
+	text-align: center;
+	margin-left: 14em !important;
+}
+
+.editRow {
+	padding: 0.5em;
+	text-align: center;
+}
+
+.editButton {
+	width: 117px;
+	height: 34px;
+    font-size: 14px;
+}
+
+.buttonBackEdit {
+    margin-top: 10em;
+    text-align: left;
+    padding-left: 17em !important;
+}
+
+/**********CSS para las páginas de firmacion**********/
+.successInsertProcedure {
+	margin-top: 13em !important;
+    text-align: center !important;
+    margin: auto;
+    width: 550px;
+    height: auto;
+}
+
+.messageContainer {
+	margin-top: 4em;
+    margin-bottom: 4em;
+}
+
+.buttonSuccessDiv {
+	text-align: center;
+	margin-top: 3em;
+}
+
+/**********CSS para las páginas de user list**********/
+table, table.thead.tr {
+	text-align: center;
+    font-size: 14px;
+}
+
+th {
+	text-align: center;
+    font-size: 14px;
+}
+
+a {
+	color: black;
+}
+
+a.removeIcon:hover {
+	color: red;
+	text-decoration: none;
+}
+
+a.editIcon:hover {
+	color: green;
+	text-decoration: none;
+}
+
+
+.userList  {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 800px;
+	height: 500px;
+}
+
+.listContainer {
+	margin-left: 1em;
+	padding: 1em !important;
+}
+
+.btnAddUser {
+	width: 200px;
+	height: 34px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+    font-size: 14px;
+}
+
+.buttonListContainer {
+	margin-left: 1em;
+	text-align: right;
+}
+
+.buttonReportsDiv {
+    margin-top: 2em;
+    margin-left: 1em !important;
+}
+
+.btnExportContainer {
+    padding-left: 23em;
+}
+
+.btnContainerDaily {
+    padding-left: 23em;
+}
+
+.divDisplayProcedure {
+    margin-left: 4em !important;
+}
+
+.itemDivDisplay {
+    padding: 0.5em;
+}
+
+.btnUpdateStatus {
+	width: 150px;
+	height: 34px;
+    font-size: 13px !important;
+    background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+}
+
+.btnCloseModal {
+	width: 150px;
+	height: 34px;
+    font-size: 13px !important;
+}
+
+.rowSelected {
+    background: #E2A9F3;
+}
+
+.rowSuccess {
+    background: #D0F5A9;
+}

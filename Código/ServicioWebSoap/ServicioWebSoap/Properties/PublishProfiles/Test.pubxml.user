@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo es utilizado por el proceso de paquete/publicación de nuestro proyecto Web. Puede personalizar el comportamiento de este proceso
+editando este archivo MSBuild. Para conocer más acerca de esto, visite http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword />
+    <_PublishTargetUrl>C:\Users\ProyectoVerano_2016\Desktop\WebServices</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/ServicioWebSoap.dll">
+      <publishTime>02/21/2017 19:20:10</publishTime>
+    </File>
+    <File Include="ServicioClientes.asmx">
+      <publishTime>01/01/2017 19:01:53</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>01/02/2017 18:20:55</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

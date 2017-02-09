@@ -1,0 +1,56 @@
+﻿@using System.Data
+<div class="userList">
+		<div class="row col-sm-12">
+			<div class="col-sm-2">
+				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+			</div>
+			<div class="col-sm-10">
+				<h3 class="headerSearchTitle">Tipos de Trámite</h3>
+			</div>
+		</div>
+		<div class="buttonListContainer row col-sm-12"> 
+		</div>
+		<div class="listContainer row col-sm-12"> 
+            @using (Html.BeginForm("procedureTypes", "Administrator"))
+            {
+			<div class="labelSearchDiv col-sm-4">
+				<label class="labelSearch">Ingrese el tipo de Trámite:</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" name="searchCode" id="searchCode" class="form-control" required >
+			</div>
+			<div class=" col-sm-4">
+				<button class="btnSearch" type ="submit">Agregar</button>
+			</div>
+            }
+		</div>
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
+                @if (ViewBag.table != null){
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Tipo de Trámite</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (ViewBag.table != null){
+                        foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
+                            { <tr><td>@row["Tipo de Procedimiento"]</td> </tr>}
+                    }
+					</tbody>
+				</table>
+                }
+			</div>
+		</div>
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
+				<button type="button" class="sendButton" onclick ="location.href='@Url.Action("administratorMenu", "Menu")'">
+					Regresar
+				</button>
+			</div>
+		</div>
+		<div class="alert logInForm">
+          <label>@ViewBag.messege</label>
+        </div>
+	</div>

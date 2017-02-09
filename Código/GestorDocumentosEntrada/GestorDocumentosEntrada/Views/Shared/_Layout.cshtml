@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @using System.Web.Optimization
+    @using System.Data
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <div class="row divHeaderWelcome">
+            <div class="col-sm-6 labelTitleWelcome">
+                Gestor de Entrada de Documentos
+            </div>
+            @if (Session["userName"] == null)
+            { 
+                <script> window.location.href='@Url.Action("Index", "LogIn")'; </script>
+            }
+            else
+            {
+            <div class="col-sm-6 labelUserWelcome">Bienvenido: @Session["userName"].ToString()</div>
+            }
+        </div>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

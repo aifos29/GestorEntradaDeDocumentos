@@ -1,0 +1,171 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "Tramites";
+}
+
+<div class="searchProcedure">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-sm-10">
+            <h3 class="headerSearchTitle">Visualizar Trámites</h3>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-12">
+            @if (ViewBag.dailyProcedure.Tables["Table"].Rows.Count != 0){
+                <table class="table table-bordered" id="tableData">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Consecutivo</th>
+                        <th>Cédula Solicitante</th>
+                        <th>Contacto</th>
+                        <th>Tipo de Trámite</th>
+                        <th>Plataformista</th>
+                        <th>Estado del Trámite</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in ViewBag.dailyProcedure.Tables["Table"].Rows)
+                    { 
+                        <tr id="@row["id"]">
+                            <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
+                            <td>@row["Consecutivo"]</td> 
+                            <td>@row["Cèdula"]</td>
+                            <td>@row["Contacto"]</td>
+                            <td>@row["Tipo de Procedimiento"]</td> 
+                            <td>@row["Plataformista"]</td> 
+                            <td>@row["Estado"]</td>
+                            @if (row["Estado"].ToString() != "Finalizado" && row["Estado"].ToString() != "Nuevo") {
+                                <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]')">Finalizar Trámite</button></td>
+                            }else {
+                                <td></td>
+                            }
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            {
+                <div class="alert alert-dismissible alert-info">
+                  <label>No se encontraron trámites dirigidos a su departamento</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            @if (Int32.Parse(Session["isAdministrator"].ToString()) == 1)
+            { 
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administratorMenu", "Menu")'">Regresar</button>
+            }else 
+            {
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administrativeMenu", "Menu")'">Regresar</button>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="updateModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalTittle">Finalizar Trámite</h4>
+      </div>
+      <div class="modal-body">
+          <input id="procedureId" name="procedureId" runat="server" hidden>
+          <div class="itemDivDisplay">
+              <label>Consecutivo del Trámite</label>
+              <input type="text" id="code" class="form-control" readonly=""/>
+          </div>
+          <div class="itemDivDisplay">
+              <label>Nuevo Estado:</label>
+              <input type="text" name="newState" class="form-control" runat="server" id="newState" readonly=""/>
+          </div>
+          <div class="itemDivDisplay" id="observationDiv">
+              <label>Observaciones</label>
+              <textarea class="form-control" id="observation" name="observation" runat="server" rows="5" cols="30" maxlength="300" placeholder="Ingrese las observaciones sobre el resultado del trámite"></textarea>
+          </div>
+          <div class="alert alert-danger modalAlertDivDisplay" id="modalAlert">
+              <label id="modalLabelError"></label>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btnCloseModal" id="closeModalUpdate">Cerrar</button>
+          <button type="button" class="btnUpdateStatus" id="getUpdateData">Finalizar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    $('#@(ViewBag.row)').css("background-color", "#A9F5BC");
+    $('#modalAlert').hide();
+    $('#observation').val('');
+    $('#newState').val('Finalizado');
+    var table = document.getElementById('tableData');
+    var procedure;
+
+    function changeProcedureState(code, consecutive) {
+        procedureId = code;
+        $('#procedureId').val(code);
+        $('#code').val(consecutive);
+        $('#updateModal').modal('toggle');
+    }
+
+    $('#getUpdateData').on('click', function () {
+        var observation = $('#observation').val();
+
+        if (observation != '') {
+            callUpdateStatus();
+            $('#updateModal').modal('hide');
+            //clearUpdateModal();
+        } else {
+            document.getElementById('modalLabelError').innerHTML = 'Ingrese una observación para la finalización del trámite';
+            $('#modalAlert').show();
+        }
+        
+    });
+
+    //Se presiona el boton de cerrar el modal, limpia los datos y cierra
+    $('#closeModalUpdate').on('click', function () {
+        clearUpdateModal();
+        $('#updateModal').modal('hide');
+    });
+
+    //Llama el metodo en el controlador
+    function callUpdateStatus() {
+        var state = $('#newState').val();
+        var observationValue = $('#observation').val();
+        var id = $('#procedureId').val();
+
+        $.ajax({
+            url: '/Procedure/displayProcedure',
+            data: { procedureId: id, newState: state, observation: observationValue },
+            type: 'POST'
+        })
+        .success(function (result) {
+            location.reload();
+            $('#'+ result).css("background-color", "#A9F5BC");
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    }
+
+    //Limpia los inputs del modal
+    function clearUpdateModal() {
+        $('#observation').val('');
+    }
+
+</script>
+}
